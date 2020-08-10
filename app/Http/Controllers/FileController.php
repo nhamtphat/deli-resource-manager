@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Validator; 
 use App\Models\File;
+use App\Models\Category;
 
 class FileController extends Controller
 {
@@ -36,7 +37,11 @@ class FileController extends Controller
      */
     public function create()
     {
-        return view('user.files.create');
+        $categories = Category::all();
+        $data = [
+            'categories' => $categories,
+        ];
+        return view('user.files.create', $data);
     }
 
     /**
@@ -83,7 +88,7 @@ class FileController extends Controller
             'description' => $request->description,
             'preview_img' => $previewNameToStore,
             'download_link' => $fileNameToStore,
-            'category_id' => 1,
+            'category_id' => $request->category_id,
         ];
         $file = $this->model->create($data);
 

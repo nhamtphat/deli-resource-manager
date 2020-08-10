@@ -15,7 +15,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Quản lý tệp</a></li>
-                        <li class="breadcrumb-item active">Tệp</li>
+                        <li class="breadcrumb-item active">Quản lý chuyên mục</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,27 +39,22 @@
       <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Chỉnh sửa tệp tin</h3>
+                <h3 class="card-title">Tạo chuyên mục mới</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{route('files.update', ['file' => $file->id])}}" method="post"  enctype="multipart/form-data">
-                <input type="hidden" name="_method" value="put" />
+              <form role="form" action="{{route('categories.store')}}" method="post">
                 {{csrf_field()}}
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="name">Tên file:</label>
-                    <input name="name" class="form-control" id="name"  value="{{ $file->name }}"  autofocus required>
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Mô tả file:</label>
-                    <input name="description" type="text" class="form-control" id="description" value="{{ $file->description }}" required>
+                    <label for="name">Tên chuyên mục:</label>
+                    <input name="name" class="form-control" id="name" autofocus required>
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary float-right">Lưu thay đổi</button>
+                  <button type="submit" class="btn btn-primary float-right">Thêm mới</button>
                   <a onclick="history.go(-1);" class="btn">Quay lại</a>
                 </div>
               </form>

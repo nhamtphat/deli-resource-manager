@@ -17,7 +17,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Quản lý tệp</a></li>
-                        <li class="breadcrumb-item active">Tệp</li>
+                        <li class="breadcrumb-item active">Quản lý chuyên mục</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -32,8 +32,8 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Danh sách tệp tin</h3>
-              <a href="{{ route('files.create') }}" class="btn btn-primary float-right">Thêm mới</a>
+              <h3 class="card-title">Chuyên mục</h3>
+              <a href="{{ route('categories.create') }}" class="btn btn-primary float-right">Thêm mới</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -41,25 +41,15 @@
                 <thead>
                 <tr>
                   <th>Tên</th>
-                  <th style="max-width: 70%">Xem trước</th>
                   <th width="50px"></th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($files as $file)
+                @foreach($categories as $category)
                 <tr>
-                  <td><b>[{{ $file->category->name   }}] {{ $file->name }}:</b><br/> {{ $file->description }}</td>
-                  <td><img src="{{ secure_asset('storage/previews/'.$file->preview_img) }}" style="max-width: 70%"/></td>
+                  <td>{{ $category->name }}</td>
                   <td>
-                    <div class="btn-group">
-                      <a href="{{ secure_asset('storage/files/'.$file->download_link) }}" class="btn btn-success"><i class="fa fa-download" download></i></a>
-                      <a href="{{ route('files.edit', ['file' => $file->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                      <form action="{{ route('files.destroy', ['file' => $file->id]) }}" method="post">
-                        @csrf
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
-                      </form>
-                    </div>
+                    <a href="{{ route('categories.edit', ['category' => $category->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 @endforeach

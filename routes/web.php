@@ -13,4 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function ()
+{
+    return redirect()->route('files.index');
+});
+
 Route::resource('files', 'FileController');
+Route::resource('categories', 'CategoryController');

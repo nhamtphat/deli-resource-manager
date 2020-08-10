@@ -1,5 +1,8 @@
 @extends('user/layouts/master')
 @section('head')
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ secure_asset('plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ secure_asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @stop
 
 @section('main')
@@ -10,12 +13,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Bảng điều khiển</h1>
+                    <h1 class="m-0 text-dark">Quản lý tệp</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Starter Page</li>
+                        <li class="breadcrumb-item"><a href="#">Quản lý tệp</a></li>
+                        <li class="breadcrumb-item active">Tệp</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -55,11 +58,19 @@
                     <input name="description" type="text" class="form-control" id="description" required>
                   </div>
                   <div class="form-group">
+                    <label>Chuyên mục:</label>
+                    <select name="category_id" class="select2" data-placeholder="Chọn một chuyên mục" style="width: 100%;">
+                      @foreach($categories as $data)
+                      <option value="{{$data->id}}">{{$data->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputFile">File tải về</label>
                     <div class="input-group">
                       <div class="custom-file">
                         <input name="file" type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
                       </div>
                     </div>
                   </div>
@@ -68,7 +79,7 @@
                     <div class="input-group">
                       <div class="custom-file">
                         <input name="preview" type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
                       </div>
                     </div>
                   </div>
@@ -76,7 +87,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                  <button type="submit" class="btn btn-primary float-right">Thêm mới</button>
                   <a onclick="history.go(-1);" class="btn">Quay lại</a>
                 </div>
               </form>
@@ -91,9 +102,13 @@
 
 @section('scripts')
 <script src="{{ secure_asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script src="{{ secure_asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
   bsCustomFileInput.init();
+  $('.select2').select2({
+      theme: 'bootstrap4'
+    })
 });
 </script>
 @stop

@@ -9,7 +9,7 @@ class File extends Model
 {
     use SoftDeletes;
     public $timestamps = false;
-    public $fillable = ['name', 'description', 'download_link', 'preview_img', 'category_id'];
+    protected $fillable = ['name', 'description', 'download_link', 'preview_img', 'category_id'];
 
     public function category()
     {
