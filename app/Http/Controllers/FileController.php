@@ -38,9 +38,11 @@ class FileController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $data = [
-            'categories' => $categories,
-        ];
+        if($categories->count() === 0) 
+            return redirect()->route('categories.create')->withErrors(['Bạn chưa có chuyên mục nào, hãy tạo chuyên mục trước.']);
+        
+        $data['categories'] = $categories;
+        
         return view('user.files.create', $data);
     }
 

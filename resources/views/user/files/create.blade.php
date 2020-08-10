@@ -59,7 +59,7 @@
                   </div>
                   <div class="form-group">
                     <label>Chuyên mục:</label>
-                    <select name="category_id" class="select2" data-placeholder="Chọn một chuyên mục" style="width: 100%;">
+                    <select name="category_id" class="select2" data-placeholder="Chọn một chuyên mục" style="width: 100%;" required>
                       @foreach($categories as $data)
                       <option value="{{$data->id}}">{{$data->name}}</option>
                       @endforeach
