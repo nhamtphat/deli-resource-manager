@@ -11,6 +11,7 @@ use App\Models\Category;
 class FileController extends Controller
 {
     private $model;
+    
     public function __construct(File $model)
     {
         $this->model = $model;

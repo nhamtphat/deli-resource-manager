@@ -51,17 +51,17 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Tên file:</label>
-                    <input name="name" class="form-control" id="name" autofocus required>
+                    <input name="name" class="form-control" id="name" value="{{ old('name') }}" autofocus required>
                   </div>
                   <div class="form-group">
                     <label for="description">Mô tả file:</label>
-                    <input name="description" type="text" class="form-control" id="description" required>
+                    <input name="description" type="text" class="form-control" id="description" value="{{ old('description') }}" required>
                   </div>
                   <div class="form-group">
                     <label>Chuyên mục:</label>
                     <select name="category_id" class="select2" data-placeholder="Chọn một chuyên mục" style="width: 100%;" required>
                       @foreach($categories as $data)
-                      <option value="{{$data->id}}">{{$data->name}}</option>
+                      <option value="{{$data->id}}" @if($data->id == old('category_id')) selected @endif >{{$data->name}}</option>
                       @endforeach
                     </select>
                   </div>
@@ -69,7 +69,7 @@
                     <label for="exampleInputFile">File tải về</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input name="file" type="file" class="custom-file-input" id="exampleInputFile">
+                        <input name="file" type="file" class="custom-file-input" id="exampleInputFile" required>
                         <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
                       </div>
                     </div>
@@ -78,7 +78,7 @@
                     <label for="exampleInputFile">Xem trước</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input name="preview" type="file" class="custom-file-input" id="exampleInputFile">
+                        <input name="preview" type="file" class="custom-file-input" id="exampleInputFile" required>
                         <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
                       </div>
                     </div>

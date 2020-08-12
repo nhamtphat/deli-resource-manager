@@ -52,11 +52,11 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Tên file:</label>
-                    <input name="name" class="form-control" id="name"  value="{{ $file->name }}"  autofocus required>
+                    <input name="name" class="form-control" id="name"  value="{{ old('name') ?? $file->name }}"  autofocus required>
                   </div>
                   <div class="form-group">
                     <label for="description">Mô tả file:</label>
-                    <input name="description" type="text" class="form-control" id="description" value="{{ $file->description }}" required>
+                    <input name="description" type="text" class="form-control" id="description" value="{{ old('description') ?? $file->description }}" required>
                   </div>
                   <div class="form-group">
                     <label>Chuyên mục:</label>
