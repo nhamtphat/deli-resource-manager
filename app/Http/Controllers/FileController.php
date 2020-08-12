@@ -54,19 +54,13 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->hasFile('file')) return 'file not ok';
-
-        $rules = array(
-            'file' => 'required|mimes:jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif',
-            'preview' => 'required|mimes:jpeg,bmp,png,gif',
-        );
-        $messages = array();
-        $validator = Validator::make($request->all(), $rules);
-        // process the form
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
-
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'category_id' => 'required|integer',
+            'file' => 'required|mimes:jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif,zip,rar',
+            'preview' => 'image',
+        ]);
 
         // Filename to store
         $filenameWithExt = $request->file('file')->getClientOriginalName();
@@ -79,19 +73,15 @@ class FileController extends Controller
         
         // Filename to store
         $previewnameWithExt = $request->file('preview')->getClientOriginalName();
-        $previewname = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $previewname = pathinfo($previewnameWithExt, PATHINFO_FILENAME);
         $extension = $request->file('preview')->getClientOriginalExtension();
         $previewNameToStore = $previewname.'_'.time().'.'.$extension;
         // Upload Image
         $preview_name = $request->file('preview')->storeAs('public/previews',$previewNameToStore);
 
-        $data = [
-            'name' => $request->name,
-            'description' => $request->description,
-            'preview_img' => $previewNameToStore,
-            'download_link' => $fileNameToStore,
-            'category_id' => $request->category_id,
-        ];
+        $data['download_link'] = $fileNameToStore;
+        $data['preview_img'] = $previewNameToStore;
+
         $file = $this->model->create($data);
 
         return redirect()->route('files.index');
@@ -121,9 +111,8 @@ class FileController extends Controller
     public function edit($id)
     {
         $file = $this->model->findOrFail($id);
-        $data = [
-            'file' => $file
-        ];
+        $data['file'] = $file;
+        $data['categories'] = Category::all();
         return view('user.files.edit', $data);
     }
 
@@ -137,7 +126,44 @@ class FileController extends Controller
     public function update(Request $request, $id)
     {
         $file = $this->model->findOrFail($id);
-        $file->update($request->all());
+
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'category_id' => 'required|integer',
+            'file' => 'mimes:jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif,zip,rar',
+            'preview' => 'image',
+        ]);
+
+        if ($request->hasFile('file')) {
+            // Delete old file
+            Storage::delete('public/file/'.$file->download_link);
+            // Filename to store
+            $filenameWithExt = $request->file('file')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $file_name = $request->file('file')->storeAs('public/files',$fileNameToStore);
+            // Update database
+            $data['download_link'] = $fileNameToStore;
+        }
+        
+        if ($request->hasFile('preview')) {
+            // Delete old file
+            Storage::delete('public/previews/'.$file->preview_img);
+            // Filename to store
+            $previewnameWithExt = $request->file('preview')->getClientOriginalName();
+            $previewname = pathinfo($previewnameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('preview')->getClientOriginalExtension();
+            $previewNameToStore = $previewname.'_'.time().'.'.$extension;
+            // Upload Image
+            $preview_name = $request->file('preview')->storeAs('public/previews',$previewNameToStore);
+            // Update database
+            $data['preview_img'] = $previewNameToStore;
+        }
+
+        $file->update($data);
         return redirect()->route('files.index');
     }
 

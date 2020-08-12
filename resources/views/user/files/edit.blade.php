@@ -1,5 +1,8 @@
 @extends('user/layouts/master')
 @section('head')
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ secure_asset('plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ secure_asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @stop
 
 @section('main')
@@ -55,6 +58,32 @@
                     <label for="description">Mô tả file:</label>
                     <input name="description" type="text" class="form-control" id="description" value="{{ $file->description }}" required>
                   </div>
+                  <div class="form-group">
+                    <label>Chuyên mục:</label>
+                    <select name="category_id" class="select2" data-placeholder="Chọn một chuyên mục" style="width: 100%;" required>
+                      @foreach($categories as $data)
+                      <option value="{{$data->id}}" @if($data->id == $file->category_id) selected @endif >{{$data->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">File tải về</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input name="file" type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">Xem trước</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input name="preview" type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Chọn file</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <!-- /.card-body -->
 
@@ -74,9 +103,13 @@
 
 @section('scripts')
 <script src="{{ secure_asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script src="{{ secure_asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
   bsCustomFileInput.init();
+  $('.select2').select2({
+      theme: 'bootstrap4'
+    })
 });
 </script>
 @stop
