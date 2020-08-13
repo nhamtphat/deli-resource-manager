@@ -11,10 +11,11 @@ use App\Models\Category;
 class FileController extends Controller
 {
     private $model;
-    
+    private $allow_filetype;
     public function __construct(File $model)
     {
         $this->model = $model;
+        $this->allow_filetype = 'jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif,zip,rar';
     }
 
     /**
@@ -59,7 +60,7 @@ class FileController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'category_id' => 'required|integer',
-            'file' => 'required|mimes:jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif,zip,rar',
+            'file' => 'required|mimes:'.$this->allow_filetype,
             'preview' => 'image',
         ]);
 
@@ -132,7 +133,7 @@ class FileController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'category_id' => 'required|integer',
-            'file' => 'mimes:jpeg,bmp,png,ai,psd,svg,esp,psd,pdf,gif,zip,rar',
+            'file' => 'mimes:'.$this->allow_filetype,
             'preview' => 'image',
         ]);
 

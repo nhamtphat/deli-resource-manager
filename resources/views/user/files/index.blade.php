@@ -10,6 +10,9 @@
   color: red;
   text-transform: uppercase;
 }
+.filename-title {
+  color: blue;
+}
 
 @media only screen and (max-width: 768px) {
   .preview-img {
@@ -73,7 +76,14 @@
                       </a>
                     </div>
                     <div class="col-lg-4">
-                      <div class="description-title"><b><span class="category-title">[{{ $file->category->name }}]</span><br> {{ $file->name }}:</b><br> {{ $file->description }}</div>
+                      <div class="description-title">
+                        <b>
+                          <span class="category-title">[{{ $file->category->name }}]</span>
+                          <br>
+                          <span class="filename-title">{{ $file->name }}:</span>
+                        </b>
+                        <br> {{ $file->description }}
+                      </div>
                     </div>
                     <div class="col-lg-1">
                       <div class="btn-group">
