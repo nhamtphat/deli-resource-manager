@@ -2,6 +2,24 @@
 @section('head')
 <link rel="stylesheet" href="{{secure_asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{secure_asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<style>
+.preview-img {
+  max-width: 500px;
+}
+.category-title {
+  color: red;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 768px) {
+  .preview-img {
+    max-width: 100%;
+  }
+  .description-title {
+    margin-top: 20px;
+  }
+}
+</style>
 @stop
 
 @section('main')
@@ -40,26 +58,36 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Tên</th>
-                  <th style="max-width: 70%">Xem trước</th>
-                  <th width="50px"></th>
+                  <th>Xem trước</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($files as $file)
                 <tr>
-                  <td><b>[{{ $file->category->name   }}] {{ $file->name }}:</b><br/> {{ $file->description }}</td>
-                  <td><img src="{{ secure_asset('storage/previews/'.$file->preview_img) }}" style="max-width: 70%"/></td>
+                  </td>
                   <td>
-                    <div class="btn-group">
-                      <a href="{{ secure_asset('storage/files/'.$file->download_link) }}" class="btn btn-success"><i class="fa fa-download" download></i></a>
-                      <a href="{{ route('files.edit', ['file' => $file->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                      <form action="{{ route('files.destroy', ['file' => $file->id]) }}" method="post">
-                        @csrf
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
-                      </form>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <a href="{{ secure_asset('storage/files/'.$file->download_link) }}" >
+                        <img src="{{ secure_asset('storage/previews/'.$file->preview_img) }}" class="preview-img"/>
+                      </a>
                     </div>
+                    <div class="col-lg-4">
+                      <div class="description-title"><b><span class="category-title">[{{ $file->category->name }}]</span><br> {{ $file->name }}:</b><br> {{ $file->description }}</div>
+                    </div>
+                    <div class="col-lg-1">
+                      <div class="btn-group">
+                        <a href="{{ secure_asset('storage/files/'.$file->download_link) }}" class="btn btn-"><i class="fa fa-download" download></i></a>
+                        <a href="{{ route('files.edit', ['file' => $file->id]) }}" class="btn btn-"><i class="fa fa-edit"></i></a>
+                        <form action="{{ route('files.destroy', ['file' => $file->id]) }}" method="post">
+                          @csrf
+                          <input type="hidden" name="_method" value="delete" />
+                          <button type="submit" class="btn btn-" ><i class="fa fa-trash"></i></button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                    
                   </td>
                 </tr>
                 @endforeach
